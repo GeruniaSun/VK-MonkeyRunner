@@ -6,7 +6,6 @@ namespace WukongBenchmarkRunner.Services;
 // запускает бенчмарк, нажимает кнопки, кликает, убивает бенчмарк, вобщем - смотрящий
 public sealed class Launcher
 {
-    private const string SteamAppId = "3132990";
     private const int SW_RESTORE = 9;
     private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
     private const uint MOUSEEVENTF_LEFTUP = 0x0004;
@@ -85,13 +84,13 @@ public sealed class Launcher
             return SaveFailure(testName, "Не удалось завершить уже запущенный процесс бенчмарка.");
         }
 
+        var windowTimeout = TimeSpan.FromSeconds(_settings.WindowWaitTimeoutSeconds);
         var existingProcessIds = GetProcessIds();
         if (!LaunchViaSteam())
         {
-            return Failed(testName, "Не удалось запустить бенчмарк через Steam.");
+            return SaveFailure(testName, "Не удалось запустить бенчмарк через Steam.");
         }
 
-        var windowTimeout = TimeSpan.FromSeconds(_settings.WindowWaitTimeoutSeconds);
         using var benchmarkProcess = await WaitForActiveBenchmarkWindowAsync(existingProcessIds, windowTimeout);
         if (benchmarkProcess is null)
         {
@@ -382,7 +381,7 @@ public sealed class Launcher
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = $"steam://rungameid/{SteamAppId}",
+                FileName = $"steam://rungameid/{SteamLibraryLocator.BenchmarkAppId}",
                 UseShellExecute = true
             })?.Dispose();
             return true;

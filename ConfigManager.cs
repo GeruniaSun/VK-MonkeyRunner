@@ -50,6 +50,12 @@ public sealed class ConfigManager : IDisposable
             return Path.GetFullPath(configuredPath);
         }
 
+        var locatedConfigFile = SteamLibraryLocator.FindBenchmarkConfigFile();
+        if (locatedConfigFile is not null)
+        {
+            return locatedConfigFile;
+        }
+
         var steamPath = Registry.CurrentUser
             .OpenSubKey(@"Software\Valve\Steam")?.GetValue("SteamPath")?.ToString();
 

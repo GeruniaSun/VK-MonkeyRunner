@@ -1,0 +1,24 @@
+{
+  "startupDelaySeconds": 120,
+  "resultCaptureDelayMinutes": 5,
+  "windowWaitTimeoutSeconds": 120,
+  "runs": [
+    {
+      "name": "CPU",
+      "settingsFile": "cpu.json"
+    },
+    {
+      "name": "GPU",
+      "settingsFile": "gpu.json"
+    }
+  ],
+  "click": {
+    "x": 0.105,
+    "startY": 0.45,
+    "stepY": 0.010,
+    "repeatCount": 1,
+    "repeatIntervalMilliseconds": 250,
+    "afterInitialEnterDelayMilliseconds": 1000,
+    "confirmationDelaySeconds": 5
+  }
+}
